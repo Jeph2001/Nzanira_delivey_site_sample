@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import SignUpForm, LoginForm
-from .models import SignUp
+from .forms import SignUpForm, LoginForm, LocationForm
+from .models import SignUp, Location
 # Create your views here.
 
 def landing_page(request):
@@ -17,7 +17,7 @@ def signup_page(request):
         signup_form = SignUpForm(request.POST)
         if signup_form.is_valid():
             signup_form.save()
-            return HttpResponseRedirect('Hello world')
+            return HttpResponseRedirect('/login/')
     else:
         signup_form = SignUpForm()
     
@@ -33,7 +33,7 @@ def login_page(request):
             try:
                 user = SignUp.objects.get(phone_number=phone_number)
                 if user.password == password:
-                    return HttpResponseRedirect('Location/')
+                    return HttpResponseRedirect('/location/')
                 else:
                     return login_form.add_error(None, 'INCORRECT PASSWORD')
             except SignUp.DoesNotExist:
@@ -42,6 +42,20 @@ def login_page(request):
     else:
             login_form = LoginForm()
     return render(request, 'login_page.html', {'login_form': login_form})
+
+
+def location_page(request):
+    if request.method == 'POST':
+        location_form = LocationForm(request.POST)
+        if location_form.is_valid():
+            location_form.save()
+            return HttpResponseRedirect('home/')
+    else:
+        location_form = LocationForm()
+    
+    return render(request, 'location_page.html', {'location_form': location_form})
+
+
 
 
             

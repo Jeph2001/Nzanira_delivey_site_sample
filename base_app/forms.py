@@ -14,7 +14,7 @@ class LoginForm(forms.Form):
     phone_number = forms.CharField(max_length=20, label='Phone Number')
     password = forms.CharField(max_length=10, widget=forms.PasswordInput, label='Password')
 
-class Location(forms.ModelForm):
+class LocationForm(forms.ModelForm):
 
 
     class Meta:
