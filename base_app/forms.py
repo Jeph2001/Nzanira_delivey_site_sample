@@ -1,5 +1,5 @@
 from django import forms
-from .models import SignUp, Location
+from .models import SignUp, Location, Payments
 
 
 class SignUpForm(forms.ModelForm):
@@ -19,4 +19,12 @@ class LocationForm(forms.ModelForm):
 
     class Meta:
         model = Location
+        fields = "__all__"
+
+
+class PaymentsForm(forms.ModelForm):
+
+
+    class Meta:
+        model = Payments
         fields = "__all__"

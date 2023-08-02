@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-from .forms import SignUpForm, LoginForm, LocationForm
-from .models import SignUp, Location
+from .forms import SignUpForm, LoginForm, LocationForm, PaymentsForm
+from .models import SignUp, Location, Products
 # Create your views here.
 
 def landing_page(request):
@@ -49,11 +49,38 @@ def location_page(request):
         location_form = LocationForm(request.POST)
         if location_form.is_valid():
             location_form.save()
-            return HttpResponseRedirect('home/')
+            return HttpResponseRedirect('/home/')
     else:
         location_form = LocationForm()
     
     return render(request, 'location_page.html', {'location_form': location_form})
+
+
+def home_page(request):
+    return render(request, 'home_page.html')
+
+def get_products_details(request, products_id):
+    deproduct = Products.objects.get(id=products_id)
+    return render(request, 'details_page.html', {'deproduct': deproduct})
+
+
+def payment_page(request):
+    if request.method == 'POST':
+        payment_form = PaymentsForm(request.POST)
+        if payment_form.is_valid():
+            payment_form.save()
+            return HttpResponseRedirect('/home/')
+    else:
+        payment_form = PaymentsForm()
+    
+    return render(request, 'payments_page.html', {'payment_form': payment_form})
+
+
+
+
+
+
+
 
 
 
