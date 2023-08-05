@@ -35,12 +35,16 @@ class Products(models.Model):
     image = models.ImageField(max_length=2080, upload_to='path/to/your/images/')
 
 
+    def __str__(self):
+        return self.product_name
+
+
 class Payments(models.Model):
     names_of_client = models.CharField(max_length=200)
     momo_pay_code = models.CharField(max_length=10, default='260954')
     confirmation_code = models.CharField(max_length=10)
     phone_number = models.ForeignKey(SignUp, on_delete=models.CASCADE)
-    
+    product_name = models.ForeignKey(Products, on_delete=models.CASCADE, default='deproduct.id/')
 
 
 

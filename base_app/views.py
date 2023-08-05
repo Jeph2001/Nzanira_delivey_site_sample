@@ -57,23 +57,30 @@ def location_page(request):
 
 
 def home_page(request):
-    return render(request, 'home_page.html')
+    products = Products.objects.all()
+    return render(request, 'home_page.html', {'products': products})
 
 def get_products_details(request, products_id):
     deproduct = Products.objects.get(id=products_id)
     return render(request, 'details_page.html', {'deproduct': deproduct})
 
 
-def payment_page(request):
+def payment_page(request, product_id):
+    product = get_object_or_404(Products, id=product_id)
     if request.method == 'POST':
         payment_form = PaymentsForm(request.POST)
         if payment_form.is_valid():
+            payment_form.fields['product_name'].initial = product.product_name
             payment_form.save()
-            return HttpResponseRedirect('/home/')
+            return HttpResponseRedirect('/thanking/')
     else:
-        payment_form = PaymentsForm()
+        payment_form = PaymentsForm(initial={'product_name': product.product_name})
     
     return render(request, 'payments_page.html', {'payment_form': payment_form})
+
+
+def thanking_page(request):
+    return render(request, 'thanking_page.html')
 
 
 

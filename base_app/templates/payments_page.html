@@ -34,6 +34,10 @@
               {{payment_form.names_of_client}}
             </div>
             <div class="mb-3">
+                <label for="{{payment_form.deproduct.id.id_for_laber}}" class="form-label">Name of Product</label>
+                {{payment_form.product_name}}
+            </div>
+            <div class="mb-3">
               <label for="{{payment_form.momo_pay_code.id_for_laber}}" class="form-label">Pay to this Code</label>
               {{payment_form.momo_pay_code}}
             </div>
@@ -45,7 +49,7 @@
                 <label for="{{payment_form.phone_number.id_for_laber}}" class="form-label">phone_number</label>
                 {{payment_form.phone_number}}
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="/thanking/"><button type="submit" class="btn btn-primary">Continue</button></a>
           </form>
     </div>
 </body>

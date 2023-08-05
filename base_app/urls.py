@@ -11,5 +11,6 @@ urlpatterns = [
     path('location/', views.location_page),
     path('home/', views.home_page),
     path('details/<int:products_id>/', views.get_products_details, name='details'),
-    path('payment/', views.payment_page),
+    path('payment/<int:product_id>/', views.payment_page, name='payment'),
+    path('thanking/', views.thanking_page),
 ]
