@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 
@@ -10,23 +12,29 @@ def validate_password_match(self, value):
 
 
 
-class SignUp(models.Model):
-    full_name = models.CharField(max_length=200, null=False)
-    phone_number = models.CharField(max_length=50, null=False)
-    email_address = models.EmailField(max_length=200)
-    password = models.CharField(max_length=10, validators=[MinLengthValidator(4)])
+
+# class SignUp(models.Model):
+#     full_name = models.CharField(max_length=200, null=False)
+#     phone_number = models.CharField(max_length=50, null=False)
+#     email_address = models.EmailField(max_length=200)
+#     password = models.CharField(max_length=10, validators=[MinLengthValidator(4)])
 
     
-    def __str__(self):
-        return self.phone_number
+#     def __str__(self):
+#         return self.phone_number
 
 
 
 class Location(models.Model):
     city = models.CharField(max_length=100)
     coordinates = models.CharField(max_length=500)
-    phone_number = models.ForeignKey(SignUp, on_delete=models.CASCADE)
+    # phone_number = models.ForeignKey(SignUp, related_name='phone' ,on_delete=models.CASCADE, default='078972635')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
+    def __str__(self):
+        return self.city
+    
 
 class Products(models.Model):
     product_name = models.CharField(max_length=100)
@@ -43,8 +51,11 @@ class Payments(models.Model):
     names_of_client = models.CharField(max_length=200)
     momo_pay_code = models.CharField(max_length=10, default='260954')
     confirmation_code = models.CharField(max_length=10)
-    phone_number = models.ForeignKey(SignUp, on_delete=models.CASCADE)
-    product_name = models.ForeignKey(Products, on_delete=models.CASCADE, default='deproduct.id/')
+    # phone_number = models.ForeignKey(SignUp, on_delete=models.CASCADE)
+    # product_name = models.ForeignKey(Products, on_delete=models.CASCADE, default='deproduct.id/')
+    phone_number = models.CharField(max_length=100)
+    product_name = models.CharField(max_length=100)
+
 
 
 

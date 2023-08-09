@@ -19,8 +19,8 @@
         <form style="margin-right: 20%; margin-left: 35%; margin-top: 3%;" method="post" action="">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="{{login_form.phone_number.id_for_laber}}" class="form-label">Phone Number</label>
-                {{login_form.phone_number}}
+                <label for="{{login_form.username.id_for_laber}}" class="form-label">User Name</label>
+                {{login_form.username}}
          
             </div>
             <div class="mb-3">

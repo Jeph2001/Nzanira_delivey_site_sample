@@ -18,59 +18,28 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets
+from base_app.views import ProductsViewSet, PaymentsViewSet, LocationViewSet
+from quickstart_on_api.views import UserViewSet, GroupViewSet
 from rest_framework.routers import DefaultRouter
-from base_app.models import Products, Payments
+from rest_framework import routers
 
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'is_staff']
-
-
-class ProductsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Products
-        fields = "__all__"
-
-
-class PaymentsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Payments
-        fields = "__all__"
-
-
-class ProductsViewSet(viewsets.ModelViewSet):
-    queryset = Products.objects.all()
-    serializer_class = ProductsSerializer
-
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class PaymentsViewSet(viewsets.ModelViewSet):
-    queryset = Payments.objects.all()
-    serializer_class = PaymentsSerializer
 
 
 router = routers.DefaultRouter()
-router.register(r'abantu', UserViewSet)
 router.register(r'product', ProductsViewSet)
 router.register(r'payment', PaymentsViewSet)
+router.register(r'user', UserViewSet)
+router.register(r'group', GroupViewSet)
+router.register(r'location', LocationViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    path('base_app/', include('base_app.urls')),
+    path('', include('base_app.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
+    path('base_app/', include(router.urls)),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
