@@ -1,14 +1,14 @@
 from django import forms
-from .models import  Location, Payments
+from .models import  Location, Payments, SignUp
 from django.contrib.auth.models import User
 
 
-# class SignUpForm(forms.ModelForm):
+class SignUpForm(forms.ModelForm):
 
     
-#     class Meta:
-#         model = SignUp
-#         fields = "__all__"
+    class Meta:
+        model = SignUp
+        fields = "__all__"
 
 class UserForm(forms.ModelForm):
 

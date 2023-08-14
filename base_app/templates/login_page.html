@@ -18,9 +18,11 @@
         <p><h2 style="margin-right: 20%; margin-left: 35%;">Login to NzaDel</h2></p>
         <form style="margin-right: 20%; margin-left: 35%; margin-top: 3%;" method="post" action="">
             {% csrf_token %}
+            {% load socialaccount %}
+            <a href="{% provider_login_url 'github' %}">Or Signup with your github account</a>
             <div class="mb-3">
-                <label for="{{login_form.username.id_for_laber}}" class="form-label">User Name</label>
-                {{login_form.username}}
+                <label for="{{login_form.phone_number.id_for_laber}}" class="form-label">Phone Number</label>
+                {{login_form.phone_number}}
          
             </div>
             <div class="mb-3">
