@@ -34,7 +34,9 @@ def signup_page(request):
         if password == password2:
             if User.objects.filter(email=email).exists():
                 messages.info(request, 'This Email Is Already Exist In Our System. Try Another')
-                return redirect('signup')
+                return redirect('/signup/')
+            elif User.objects.filter(username=username).exists():
+                messages.info(request, 'This Username Is Already Exist In Our System. Try Another')
             else:
                 user = User.objects.create_user(username=username, email=email, password=password)
                 user.save()
