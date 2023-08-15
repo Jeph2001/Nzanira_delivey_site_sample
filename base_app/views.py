@@ -1,15 +1,17 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
-from .forms import LoginForm, LocationForm, PaymentsForm, UserForm, SignUpForm
-from .models import  Location, Products, Payments, SignUp
+from .forms import UserForm, LocationForm, PaymentsForm, UserForm
+from .models import  Location, Products, Payments
 from rest_framework import viewsets, permissions
 from .serializers import PaymentsSerializer, ProductsSerializer, LocationSerializer, UserSerializers
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from rest_framework import generics
 from .permissions import IsOwnerOrReadOnly
+from django.contrib import messages
 
 # Create your views here.
 
@@ -21,40 +23,42 @@ def base_page(request):
     return render(request, 'base_page.html')
 
 
+
 def signup_page(request):
     if request.method == 'POST':
-        signup_form = SignUpForm(request.POST)
-        if signup_form.is_valid():
-            signup_form.save()
-            return HttpResponseRedirect('/login/')
-    else:
-        signup_form = SignUpForm()
-    
-    return render(request, 'signup_page.html', {'signup_form': signup_form})
+        username = request.POST['names']
+        email = request.POST['email']
+        password = request.POST['password1']
+        password2 = request.POST['password2']
+
+        if password == password2:
+            if User.objects.filter(email=email).exists():
+                messages.info(request, 'This Email Is Already Exist In Our System. Try Another')
+                return redirect('signup')
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                user.save()
+        else:
+            messages.info(request, 'You Entered Different Password')
+            return redirect('/signup/')
+
+    return render(request, 'signup_page.html')
 
 
 def login_page(request):
     if request.method == 'POST':
-        login_form = LoginForm(request.POST)
-        if login_form.is_valid():
-            phone_number = login_form.cleaned_data['phone_number']
-            # username = login_form.cleaned_data['username']
-            password = login_form.cleaned_data['password']
-            try:
-                user = SignUp.objects.get(phone_number=phone_number)
-                # user = User.objects.get(username=username)
-                if user.password == password:
-                    return HttpResponseRedirect('/location/')
-                else:
-                    # return login_form.add_error(None, 'INCORRECT PASSWORD')
-                    return login_form.add_error(None, 'INCORRECT PASSWORD')
-            except User.DoesNotExist:
-                return login_form.add_error(None, "We don't know you")
-            
+        username = request.POST['names']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/location/')
+        else:
+            messages.info(request, 'Invalid Password or Email')
     
-    else:
-            login_form = LoginForm()
-    return render(request, 'login_page.html', {'login_form': login_form})
+    return render(request, 'login_page.html')
 
 
 def location_page(request):
