@@ -13,6 +13,8 @@ from rest_framework import generics
 from .permissions import IsOwnerOrReadOnly
 from django.contrib import messages
 
+
+
 # Create your views here.
 
 def landing_page(request):
@@ -97,20 +99,6 @@ def payment_page(request, product_id):
         payment_form = PaymentsForm(initial={'product_name': product.product_name})
     
     return render(request, 'payments_page.html', {'payment_form': payment_form})
-# @api_view(['GET', 'POST'])
-# def payment_page(request):
-#     if request.method == 'GET':
-#         payment = Payments.objects.all()
-#         serializer = PaymentsSerializer(payment, many=True)
-#         return Response(serializer.data)
-    
-#     elif request.method == 'POST':
-#         serializer = PaymentsSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
-    
 
 
 def thanking_page(request):
@@ -136,16 +124,32 @@ class LocationViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
 
-class UserList(generics.ListAPIView):
+class ListOfUser(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializers
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class CreateUser(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializers
+
+
+class DeleteUser(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializers
+
+
+class LocationList(generics.ListAPIView):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
 
 
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializers
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
 
 
 

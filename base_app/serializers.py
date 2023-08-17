@@ -17,22 +17,22 @@ class PaymentsSerializer(serializers.ModelSerializer):
 
 class LocationSerializer(serializers.ModelSerializer):
 
-    owner = serializers.ReadOnlyField(source='owner.username')
+    # owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Location
-        fields = ['city', 'coordinates', 'phone_number', 'owner', 'url']
+        fields = ['city', 'coordinates', 'url']
     
 
 
 
 
 class UserSerializers(serializers.ModelSerializer):
-    location = serializers.PrimaryKeyRelatedField(many=True, queryset=Location.objects.all())
+    # location = serializers.PrimaryKeyRelatedField(many=True, queryset=Location.objects.all())
 
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'location']
+        fields = ['id', 'username']
 
 

@@ -42,10 +42,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.facebook',
     'base_app',
     'rest_framework',
     'quickstart_on_api',
     'django.contrib.sites',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -164,5 +167,25 @@ SOCIALACCOUNT_PROVIDERS = {
             'client_id': 'da5510c4d05bad3103d9',
             'secret': '3bc09b730f926ae0fad109361bff144b0b014126',
         }
+    },
+    'facebook': {
+        'SCOPE': ['email', 'public_profile'],
+        'METHOD': 'js_sdk',
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time',
+        ],
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v12.0',
+
     }
 }
