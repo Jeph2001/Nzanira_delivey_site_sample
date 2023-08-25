@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Add the latest Bootstrap JavaScript links -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color: rgb(0, 0, 0);">
+    <style>
+        form{
+            background-color: white;
+            padding: 5%;
+        }
+    </style>
+    <div>
+        {% for message in messages %}
+        <h4 style="color: red; text-align: center; text-decoration-style: dashed;">{{message}}</h4>   
+        {% endfor %}  
+    </div>
+    <div style="background-color: aqua; margin-left: 35%; margin-right: 35%; margin-top: 7%;">
+        <form  method="post" action="/login/">
+            {% csrf_token %}
+            {% load socialaccount %}
+            <p><h2 style="text-align: center;"><b>Login</b></h2></p>
+            <div style="text-align: center; padding: 2%;">
+                <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="/login/">Login</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/signup/">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label"><b>Username</b></label>
+              <input type="text" name="names" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label"><b>Password</b></label>
+              <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-left: 40%;"><b>Login</b></button>
+            <div style="text-align: center; margin-top: 5%;">
+                <h4>or</h4>
+                <h5>Sign In with</h5>
+                <a href="{% provider_login_url 'facebook' %}"><b>Google Email</b></a><br>
+                <a href="{% provider_login_url 'github' %}"><b>Github Account</b></a>
+            </div>
+          </form> 
+    </div>
+</body>
+</html>

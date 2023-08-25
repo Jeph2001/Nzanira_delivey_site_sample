@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets
+from rest_framework import serializers
 from .models import Products, Payments, Location
 
 
@@ -33,6 +33,6 @@ class UserSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'password']
 
 

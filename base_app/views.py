@@ -18,7 +18,7 @@ from django.contrib import messages
 # Create your views here.
 
 def landing_page(request):
-    return render(request, 'landing_page.html')
+    return render(request, 'updated_landing_page.html')
 
 
 def base_page(request):
@@ -46,7 +46,7 @@ def signup_page(request):
             messages.info(request, 'You Entered Different Password')
             return redirect('/signup/')
 
-    return render(request, 'signup_page.html')
+    return render(request, 'updated_signup_page.html')
 
 
 def login_page(request):
@@ -62,7 +62,7 @@ def login_page(request):
         else:
             messages.info(request, 'Invalid Password or Email')
     
-    return render(request, 'login_page.html')
+    return render(request, 'updated_login_page.html')
 
 
 def location_page(request):
